@@ -10,8 +10,8 @@ link:
 lint:
 	npx eslint .
 
-jest:
+test:
 	npx jest
 
-jest-coverage:
+test-coverage:
 	npx jest --coverage
