@@ -14,6 +14,9 @@ const compat = new FlatCompat({
 });
 
 export default [
+  {
+    ignores: ['**/node_modules/**', '**/__tests__/**', 'eslint.config.js']
+  },
   {languageOptions: { globals: globals.node }},
   ...compat.extends("airbnb"),
   {
