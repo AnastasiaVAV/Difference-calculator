@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import gendiff from '../src/index.js';
+import gendiff from '../index.js';
 import fs from 'fs';
 import path from 'path';
 
