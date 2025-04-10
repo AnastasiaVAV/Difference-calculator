@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import parse from './parse.js';
+import parse from './src/parse.js';
 
 const gendiff = (filepath1, filepath2) => {
   const parseFile1 = parse(filepath1);
@@ -14,13 +14,13 @@ const gendiff = (filepath1, filepath2) => {
       const propertyFile2 = parseFile2[key];
       let mapKey;
       if (!Object.hasOwn(parseFile1, key)) {
-        mapKey = `+ ${key}: ${propertyFile2}\n`;
+        mapKey = `  + ${key}: ${propertyFile2}\n`;
       } else if (!Object.hasOwn(parseFile2, key)) {
-        mapKey = `- ${key}: ${propertyFile1}\n`;
+        mapKey = `  - ${key}: ${propertyFile1}\n`;
       } else if (propertyFile1 === propertyFile2) {
-        mapKey = `  ${key}: ${propertyFile1}\n`;
+        mapKey = `    ${key}: ${propertyFile1}\n`;
       } else {
-        mapKey = `- ${key}: ${propertyFile1}\n+ ${key}: ${propertyFile2}\n`;
+        mapKey = `  - ${key}: ${propertyFile1}\n  + ${key}: ${propertyFile2}\n`;
       }
       return mapKey;
     })

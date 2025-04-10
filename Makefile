@@ -9,3 +9,6 @@ link:
 
 lint:
 	npx eslint .
+
+jest:
+	npx jest
