@@ -12,3 +12,6 @@ lint:
 
 jest:
 	npx jest
+
+jest-coverage:
+	npx jest --coverage
