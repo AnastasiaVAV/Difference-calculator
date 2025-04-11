@@ -11,23 +11,25 @@ const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name
 const getRelativeFixturePath = (name) => path.join('__fixtures__', name);
 const readFixtureFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
+const formats = ['json', 'yml'];
 let expected;
 let absoluteFilepath1;
 let absoluteFilepath2;
 let relativeFilepath1;
 let relativeFilepath2;
+
 beforeAll(() => {
-  absoluteFilepath1 = getFixturePath('file1.json');
-  absoluteFilepath2 = getFixturePath('file2.json');
-  relativeFilepath1 = getRelativeFixturePath('file1.json');
-  relativeFilepath2 = getRelativeFixturePath('file2.json');
-  expected = readFixtureFile('result_flat-json-files.txt');
+  expected = readFixtureFile('result.txt');
 });
 
-test('absolute path', () => {
+test.each(formats)('absolute path (%s)', (format) => {
+  absoluteFilepath1 = getFixturePath(`file1.${format}`);
+  absoluteFilepath2 = getFixturePath(`file2.${format}`);
   expect(gendiff(absoluteFilepath1, absoluteFilepath2)).toEqual(expected);
 });
 
-test('relative path', () => {
+test.each(formats)('relative path (%s)', (format) => {
+  relativeFilepath1 = getRelativeFixturePath(`file1.${format}`);
+  relativeFilepath2 = getRelativeFixturePath(`file2.${format}`);
   expect(gendiff(relativeFilepath1, relativeFilepath2)).toEqual(expected);
 });
