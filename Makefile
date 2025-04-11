@@ -15,3 +15,9 @@ test:
 
 test-coverage:
 	npx jest --coverage
+
+video: 
+	asciinema rec
+
+video-upload:
+	asciinema upload
