@@ -10,3 +10,6 @@
 
 ## Сравнение плоских файлов (yaml)
 [![asciicast](https://asciinema.org/a/HEO4vQKm2gxAKAbPEr5Xl3FW6.svg)](https://asciinema.org/a/HEO4vQKm2gxAKAbPEr5Xl3FW6)
+
+## Рекурсивное сравнение
+[![asciicast](https://asciinema.org/a/2MUvPSQvtnzceXFamHXRlBda0.svg)](https://asciinema.org/a/2MUvPSQvtnzceXFamHXRlBda0)
