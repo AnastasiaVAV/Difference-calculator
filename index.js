@@ -1,31 +1,54 @@
 import _ from 'lodash';
 import parse from './src/parse.js';
 
+const sortedObject = (obj) => {
+  if (!_.isObject(obj) || obj === null) {
+    return obj;
+  }
+  return Object.keys(obj)
+    .sort()
+    .reduce((acc, key) => {
+      acc[key] = sortedObject(obj[key]);
+      return acc;
+    }, {});
+};
+
+const buildTree = (obj1, obj2) => {
+  const allKeys = _.union(Object.keys(obj1), Object.keys(obj2));
+
+  return allKeys.reduce((acc, key) => {
+    const hasKey1 = Object.hasOwn(obj1, key);
+    const hasKey2 = Object.hasOwn(obj2, key);
+
+    if (!hasKey1) {
+      acc[key] = { name: key, type: 'added', value: obj2[key] };
+    } else if (!hasKey2) {
+      acc[key] = { name: key, type: 'removed', value: obj1[key] };
+    } else if (hasKey1 && hasKey2) {
+      const isEquality = obj1[key] === obj2[key];
+      if (isEquality) {
+        acc[key] = { name: key, type: 'unchanged', value: obj1[key] };
+      } else {
+        acc[key] = {
+          name: key,
+          type: 'changed',
+          valueOld: obj1[key],
+          valueNew: obj2[key],
+        };
+      }
+    }
+    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+      acc[key] = { name: key, type: 'unchanged', value: buildTree(obj1[key], obj2[key]) };
+    }
+    return acc;
+  }, {});
+};
+
 const gendiff = (filepath1, filepath2) => {
   const parseFile1 = parse(filepath1);
   const parseFile2 = parse(filepath2);
-  const keysFile1 = Object.keys(parseFile1);
-  const keysFile2 = Object.keys(parseFile2);
-  const sortedKeys = _.union(keysFile1, keysFile2).sort();
-
-  const diff = sortedKeys
-    .map((key) => {
-      const propertyFile1 = parseFile1[key];
-      const propertyFile2 = parseFile2[key];
-      let mapKey;
-      if (!Object.hasOwn(parseFile1, key)) {
-        mapKey = `  + ${key}: ${propertyFile2}\n`;
-      } else if (!Object.hasOwn(parseFile2, key)) {
-        mapKey = `  - ${key}: ${propertyFile1}\n`;
-      } else if (propertyFile1 === propertyFile2) {
-        mapKey = `    ${key}: ${propertyFile1}\n`;
-      } else {
-        mapKey = `  - ${key}: ${propertyFile1}\n  + ${key}: ${propertyFile2}\n`;
-      }
-      return mapKey;
-    })
-    .join('');
-  return `{\n${diff}}`;
+  const tree = sortedObject(buildTree(parseFile1, parseFile2));
+  return tree;
 };
 
 export default gendiff;

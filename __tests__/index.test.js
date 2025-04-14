@@ -3,6 +3,7 @@ import { dirname } from 'path';
 import gendiff from '../index.js';
 import fs from 'fs';
 import path from 'path';
+import formatter from '../src/formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,11 +26,11 @@ beforeAll(() => {
 test.each(formats)('absolute path (%s)', (format) => {
   absoluteFilepath1 = getFixturePath(`file1.${format}`);
   absoluteFilepath2 = getFixturePath(`file2.${format}`);
-  expect(gendiff(absoluteFilepath1, absoluteFilepath2)).toEqual(expected);
+  expect(formatter(gendiff(absoluteFilepath1, absoluteFilepath2))).toEqual(expected);
 });
 
 test.each(formats)('relative path (%s)', (format) => {
   relativeFilepath1 = getRelativeFixturePath(`file1.${format}`);
   relativeFilepath2 = getRelativeFixturePath(`file2.${format}`);
-  expect(gendiff(relativeFilepath1, relativeFilepath2)).toEqual(expected);
+  expect(formatter(gendiff(relativeFilepath1, relativeFilepath2))).toEqual(expected);
 });
