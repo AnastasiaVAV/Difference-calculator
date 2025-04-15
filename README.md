@@ -13,3 +13,6 @@
 
 ## Рекурсивное сравнение
 [![asciicast](https://asciinema.org/a/2MUvPSQvtnzceXFamHXRlBda0.svg)](https://asciinema.org/a/2MUvPSQvtnzceXFamHXRlBda0)
+
+## Плоский формат
+[![asciicast](https://asciinema.org/a/EkB72Tb1NIEcAka56oY1IKcSr.svg)](https://asciinema.org/a/EkB72Tb1NIEcAka56oY1IKcSr)

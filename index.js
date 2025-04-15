@@ -18,7 +18,7 @@ const buildTree = (obj1, obj2) => {
         ? { name: key, type: 'unchanged', value: obj1[key] }
         : {
           name: key,
-          type: 'changed',
+          type: 'updated',
           valueOld: obj1[key],
           valueNew: obj2[key],
         };
