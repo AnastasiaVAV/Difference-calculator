@@ -34,6 +34,7 @@ test.each(filesFormats)('absolute path (%s)', (format) => {
   absoluteFilepath2 = getFixturePath(`file2.${format}`);
   diff = gendiff(absoluteFilepath1, absoluteFilepath2);
   expect(formatter(diff)).toEqual(expectedStylish);
+  expect(formatter(diff, 'stylish')).toEqual(expectedStylish);
   expect(formatter(diff, 'plain')).toEqual(expectedPlain);
   expect(formatter(diff, 'json')).toEqual(expectedJson);
 });
@@ -43,6 +44,7 @@ test.each(filesFormats)('relative path (%s)', (format) => {
   relativeFilepath2 = getRelativeFixturePath(`file2.${format}`);
   diff = gendiff(relativeFilepath1, relativeFilepath2);
   expect(formatter(diff)).toEqual(expectedStylish);
+  expect(formatter(diff, 'stylish')).toEqual(expectedStylish);
   expect(formatter(diff, 'plain')).toEqual(expectedPlain);
   expect(formatter(diff, 'json')).toEqual(expectedJson);
 });
