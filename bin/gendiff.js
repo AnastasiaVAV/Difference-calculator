@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { program } from 'commander';
 import gendiff from '../index.js';
-import formatter from '../src/formatters/index.js';
+// import formatter from '../src/formatters/index.js';
 
 program
   .name('gendiff')
@@ -13,8 +13,9 @@ program
   .action((filepath1, filepath2) => {
     const options = program.opts();
     const { format } = options;
-    const diff = gendiff(filepath1, filepath2);
-    console.log(formatter(diff, format));
+    // const diff = gendiff(filepath1, filepath2);
+    // console.log(formatter(diff, format));
+    console.log(gendiff(filepath1, filepath2, format));
   });
 
 program.parse(process.argv);

@@ -18,7 +18,7 @@ let absoluteFilepath1;
 let absoluteFilepath2;
 let relativeFilepath1;
 let relativeFilepath2;
-let diff;
+// let diff;
 let expectedStylish;
 let expectedPlain;
 let expectedJson;
@@ -32,19 +32,27 @@ beforeAll(() => {
 test.each(filesFormats)('absolute path (%s)', (format) => {
   absoluteFilepath1 = getFixturePath(`file1.${format}`);
   absoluteFilepath2 = getFixturePath(`file2.${format}`);
-  diff = gendiff(absoluteFilepath1, absoluteFilepath2);
-  expect(formatter(diff)).toEqual(expectedStylish);
-  expect(formatter(diff, 'stylish')).toEqual(expectedStylish);
-  expect(formatter(diff, 'plain')).toEqual(expectedPlain);
-  expect(formatter(diff, 'json')).toEqual(expectedJson);
+  // diff = gendiff(absoluteFilepath1, absoluteFilepath2);
+  // expect(formatter(diff)).toEqual(expectedStylish);
+  // expect(formatter(diff, 'stylish')).toEqual(expectedStylish);
+  // expect(formatter(diff, 'plain')).toEqual(expectedPlain);
+  // expect(formatter(diff, 'json')).toEqual(expectedJson);
+  expect(gendiff(absoluteFilepath1, absoluteFilepath2)).toEqual(expectedStylish);
+  expect(gendiff(absoluteFilepath1, absoluteFilepath2, 'stylish')).toEqual(expectedStylish);
+  expect(gendiff(absoluteFilepath1, absoluteFilepath2, 'plain')).toEqual(expectedPlain);
+  expect(gendiff(absoluteFilepath1, absoluteFilepath2, 'json')).toEqual(expectedJson);
 });
 
 test.each(filesFormats)('relative path (%s)', (format) => {
   relativeFilepath1 = getRelativeFixturePath(`file1.${format}`);
   relativeFilepath2 = getRelativeFixturePath(`file2.${format}`);
-  diff = gendiff(relativeFilepath1, relativeFilepath2);
-  expect(formatter(diff)).toEqual(expectedStylish);
-  expect(formatter(diff, 'stylish')).toEqual(expectedStylish);
-  expect(formatter(diff, 'plain')).toEqual(expectedPlain);
-  expect(formatter(diff, 'json')).toEqual(expectedJson);
+  // diff = gendiff(relativeFilepath1, relativeFilepath2);
+  // expect(formatter(diff)).toEqual(expectedStylish);
+  // expect(formatter(diff, 'stylish')).toEqual(expectedStylish);
+  // expect(formatter(diff, 'plain')).toEqual(expectedPlain);
+  // expect(formatter(diff, 'json')).toEqual(expectedJson);
+  expect(gendiff(relativeFilepath1, relativeFilepath2)).toEqual(expectedStylish);
+  expect(gendiff(relativeFilepath1, relativeFilepath2, 'stylish')).toEqual(expectedStylish);
+  expect(gendiff(relativeFilepath1, relativeFilepath2, 'plain')).toEqual(expectedPlain);
+  expect(gendiff(relativeFilepath1, relativeFilepath2, 'json')).toEqual(expectedJson);
 });

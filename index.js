@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import parse from './src/parse.js';
+import formatter from './src/formatters/index.js';
 
 const buildTree = (obj1, obj2) => {
   const allKeys = _.union(Object.keys(obj1), Object.keys(obj2));
@@ -42,11 +43,12 @@ const sortedObject = (obj) => {
     }, {});
 };
 
-const gendiff = (filepath1, filepath2) => {
+const gendiff = (filepath1, filepath2, format = 'stylish') => {
   const parseFile1 = parse(filepath1);
   const parseFile2 = parse(filepath2);
   const tree = sortedObject(buildTree(parseFile1, parseFile2));
-  return tree;
+  // return tree;
+  return formatter(tree, format);
 };
 
 export default gendiff;
