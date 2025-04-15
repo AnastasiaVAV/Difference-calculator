@@ -12,7 +12,8 @@ const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name
 const getRelativeFixturePath = (name) => path.join('__fixtures__', name);
 const readFixtureFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-const formats = ['json', 'yml', 'yaml'];
+const filesFormats = ['json', 'yml', 'yaml'];
+// const formatters = ['stylish', 'plain', 'json'];
 let absoluteFilepath1;
 let absoluteFilepath2;
 let relativeFilepath1;
@@ -20,24 +21,28 @@ let relativeFilepath2;
 let diff;
 let expectedStylish;
 let expectedPlain;
+let expectedJson;
 
 beforeAll(() => {
   expectedStylish = readFixtureFile('result_stylish.txt');
   expectedPlain = readFixtureFile('result_plain.txt');
+  expectedJson = readFixtureFile('result_json.txt');
 });
 
-test.each(formats)('absolute path (%s)', (format) => {
+test.each(filesFormats)('absolute path (%s)', (format) => {
   absoluteFilepath1 = getFixturePath(`file1.${format}`);
   absoluteFilepath2 = getFixturePath(`file2.${format}`);
   diff = gendiff(absoluteFilepath1, absoluteFilepath2);
   expect(formatter(diff)).toEqual(expectedStylish);
   expect(formatter(diff, 'plain')).toEqual(expectedPlain);
+  expect(formatter(diff, 'json')).toEqual(expectedJson);
 });
 
-test.each(formats)('relative path (%s)', (format) => {
+test.each(filesFormats)('relative path (%s)', (format) => {
   relativeFilepath1 = getRelativeFixturePath(`file1.${format}`);
   relativeFilepath2 = getRelativeFixturePath(`file2.${format}`);
   diff = gendiff(relativeFilepath1, relativeFilepath2);
   expect(formatter(diff)).toEqual(expectedStylish);
   expect(formatter(diff, 'plain')).toEqual(expectedPlain);
+  expect(formatter(diff, 'json')).toEqual(expectedJson);
 });
