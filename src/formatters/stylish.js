@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const status = {
+const statuses = {
   unchanged: '  ',
   added: '+ ',
   removed: '- ',
@@ -23,28 +23,19 @@ export default (obj) => {
     const lines = Object
       .entries(currentObj)
       .map(([key, node]) => {
-        let value;
-        let secondString = '';
-        const nodeStatus = status[node.type] || status.unchanged;
+        const nodeStatus = statuses[node.type] || statuses.unchanged;
+        const firstPart = `${currentIndent}${nodeStatus}${key}: `;
+        const getValue = (value) => iter(value, depth + 1);
         switch (node.type) {
           case 'unchanged':
-            value = node.value;
-            break;
           case 'added':
-            value = node.value;
-            break;
           case 'removed':
-            value = node.value;
-            break;
+            return `${firstPart}${getValue(node.value)}`;
           case 'updated':
-            value = node.valueOld;
-            secondString = `\n${currentIndent}${status.added}${key}: ${iter(node.valueNew, depth + 1)}`;
-            break;
+            return `${firstPart}${getValue(node.valueOld)}\n${currentIndent}${statuses.added}${key}: ${getValue(node.valueNew)}`;
           default:
-            value = node;
-            break;
+            return `${firstPart}${getValue(node)}`;
         }
-        return `${currentIndent}${nodeStatus}${key}: ${iter(value, depth + 1)}${secondString}`;
       });
     return `{\n${lines.join('\n')}\n${bracketIndent}}`;
   };

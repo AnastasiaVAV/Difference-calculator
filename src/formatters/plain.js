@@ -13,20 +13,17 @@ const plain = (obj, path = '') => Object
   .entries(obj)
   .map(([key, node]) => {
     const currentPath = path ? `${path}.${key}` : key;
-    let value = '';
+    const firstPart = `Property '${currentPath}' was ${node.type}`;
     switch (node.type) {
       case 'added':
-        value = ` with value: ${formatValue(node.value)}`;
-        break;
+        return `${firstPart} with value: ${formatValue(node.value)}`;
       case 'removed':
-        break;
+        return `${firstPart}`;
       case 'updated':
-        value = `. From ${formatValue(node.valueOld)} to ${formatValue(node.valueNew)}`;
-        break;
+        return `${firstPart}. From ${formatValue(node.valueOld)} to ${formatValue(node.valueNew)}`;
       default:
         return _.isObject(node.value) ? plain(node.value, currentPath) : '';
     }
-    return `Property '${currentPath}' was ${node.type}${value}`;
   })
   .filter(Boolean)
   .join('\n');

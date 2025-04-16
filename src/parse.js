@@ -5,18 +5,14 @@ import yaml from 'js-yaml';
 export default (filepath) => {
   const fileContent = fs.readFileSync(path.resolve(filepath), 'utf-8');
   const format = path.extname(filepath).slice(1);
-  let parse;
 
   switch (format) {
     case 'json':
-      parse = JSON.parse(fileContent);
-      break;
+      return JSON.parse(fileContent);
     case 'yml':
     case 'yaml':
-      parse = yaml.load(fileContent);
-      break;
+      return yaml.load(fileContent);
     default:
-      break;
+      throw new Error(`Unsupported file format: ${format}`);
   }
-  return parse;
 };

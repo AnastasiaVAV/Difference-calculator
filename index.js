@@ -8,14 +8,15 @@ const buildTree = (obj1, obj2) => {
   return allKeys.reduce((acc, key) => {
     const hasKey1 = Object.hasOwn(obj1, key);
     const hasKey2 = Object.hasOwn(obj2, key);
+    let value;
 
     if (!hasKey1 || !hasKey2) {
-      acc[key] = !hasKey1
+      value = !hasKey1
         ? { name: key, type: 'added', value: obj2[key] }
         : { name: key, type: 'removed', value: obj1[key] };
     } else {
       const isEquality = obj1[key] === obj2[key];
-      acc[key] = isEquality
+      value = isEquality
         ? { name: key, type: 'unchanged', value: obj1[key] }
         : {
           name: key,
@@ -25,9 +26,9 @@ const buildTree = (obj1, obj2) => {
         };
     }
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      acc[key] = { name: key, type: 'unchanged', value: buildTree(obj1[key], obj2[key]) };
+      value = { name: key, type: 'unchanged', value: buildTree(obj1[key], obj2[key]) };
     }
-    return acc;
+    return { ...acc, [key]: value };
   }, {});
 };
 
@@ -35,19 +36,14 @@ const sortedObject = (obj) => {
   if (!_.isObject(obj) || obj === null) {
     return obj;
   }
-  return Object.keys(obj)
-    .sort()
-    .reduce((acc, key) => {
-      acc[key] = sortedObject(obj[key]);
-      return acc;
-    }, {});
+  const sortedKeys = Object.keys(obj).sort();
+  return sortedKeys.reduce((acc, key) => ({ ...acc, [key]: sortedObject(obj[key]) }), {});
 };
 
 const gendiff = (filepath1, filepath2, format = 'stylish') => {
   const parseFile1 = parse(filepath1);
   const parseFile2 = parse(filepath2);
   const tree = sortedObject(buildTree(parseFile1, parseFile2));
-  // return tree;
   return formatter(tree, format);
 };
 
