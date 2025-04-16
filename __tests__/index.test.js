@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import gendiff from '../index.js';
 import fs from 'fs';
+import gendiff from '../index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,15 +11,10 @@ const getRelativeFixturePath = (name) => path.join('__fixtures__', name);
 const readFixtureFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 const filesFormats = ['json', 'yml', 'yaml'];
-let expectedStylish;
-let expectedPlain;
-let expectedJson;
 
-beforeAll(() => {
-  expectedStylish = readFixtureFile('result_stylish.txt');
-  expectedPlain = readFixtureFile('result_plain.txt');
-  expectedJson = readFixtureFile('result_json.txt');
-});
+const expectedStylish = readFixtureFile('result_stylish.txt');
+const expectedPlain = readFixtureFile('result_plain.txt');
+const expectedJson = readFixtureFile('result_json.txt');
 
 test.each(filesFormats)('absolute path (%s)', (format) => {
   const absoluteFilepath1 = getFixturePath(`file1.${format}`);

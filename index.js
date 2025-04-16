@@ -8,15 +8,18 @@ const buildTree = (obj1, obj2) => {
   return allKeys.reduce((acc, key) => {
     const hasKey1 = Object.hasOwn(obj1, key);
     const hasKey2 = Object.hasOwn(obj2, key);
-    let value;
+    const value = (() => {
+      if (!hasKey1 || !hasKey2) {
+        return !hasKey1
+          ? { name: key, type: 'added', value: obj2[key] }
+          : { name: key, type: 'removed', value: obj1[key] };
+      }
+      if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+        return { name: key, type: 'unchanged', value: buildTree(obj1[key], obj2[key]) };
+      }
 
-    if (!hasKey1 || !hasKey2) {
-      value = !hasKey1
-        ? { name: key, type: 'added', value: obj2[key] }
-        : { name: key, type: 'removed', value: obj1[key] };
-    } else {
       const isEquality = obj1[key] === obj2[key];
-      value = isEquality
+      return isEquality
         ? { name: key, type: 'unchanged', value: obj1[key] }
         : {
           name: key,
@@ -24,10 +27,7 @@ const buildTree = (obj1, obj2) => {
           valueOld: obj1[key],
           valueNew: obj2[key],
         };
-    }
-    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      value = { name: key, type: 'unchanged', value: buildTree(obj1[key], obj2[key]) };
-    }
+    })();
     return { ...acc, [key]: value };
   }, {});
 };
@@ -36,7 +36,7 @@ const sortedObject = (obj) => {
   if (!_.isObject(obj) || obj === null) {
     return obj;
   }
-  const sortedKeys = Object.keys(obj).sort();
+  const sortedKeys = Object.keys(obj).toSorted();
   return sortedKeys.reduce((acc, key) => ({ ...acc, [key]: sortedObject(obj[key]) }), {});
 };
 
