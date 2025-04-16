@@ -24,18 +24,17 @@ export default (obj) => {
       .entries(currentObj)
       .map(([key, node]) => {
         const nodeStatus = statuses[node.type] || statuses.unchanged;
-        const firstPart = `${currentIndent}${nodeStatus}${key}: `;
         const getValue = (value) => iter(value, depth + 1);
-        switch (node.type) {
-          case 'unchanged':
-          case 'added':
-          case 'removed':
-            return `${firstPart}${getValue(node.value)}`;
-          case 'updated':
-            return `${firstPart}${getValue(node.valueOld)}\n${currentIndent}${statuses.added}${key}: ${getValue(node.valueNew)}`;
-          default:
-            return `${firstPart}${getValue(node)}`;
+        if (!node.type) {
+          return `${currentIndent}${nodeStatus}${key}: ${getValue(node)}`;
         }
+        const currentValue = node.type === 'updated'
+          ? getValue(node.valueOld)
+          : getValue(node.value);
+        const secondStr = node.type === 'updated'
+          ? `\n${currentIndent}${statuses.added}${key}: ${getValue(node.valueNew)}`
+          : '';
+        return `${currentIndent}${nodeStatus}${key}: ${currentValue}${secondStr}`;
       });
     return `{\n${lines.join('\n')}\n${bracketIndent}}`;
   };
