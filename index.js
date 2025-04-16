@@ -40,7 +40,7 @@ const sortedObject = (obj) => {
   return sortedKeys.reduce((acc, key) => ({ ...acc, [key]: sortedObject(obj[key]) }), {});
 };
 
-const gendiff = (filepath1, filepath2, format = 'stylish') => {
+const gendiff = (filepath1, filepath2, format) => {
   const parseFile1 = parse(filepath1);
   const parseFile2 = parse(filepath2);
   const tree = sortedObject(buildTree(parseFile1, parseFile2));

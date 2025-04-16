@@ -4,7 +4,7 @@ const statuses = {
   unchanged: '  ',
   added: '+ ',
   removed: '- ',
-  updated: '- ',
+  updated: { removed: '- ', added: '+ ' },
 };
 
 export default (obj) => {
@@ -23,16 +23,18 @@ export default (obj) => {
     const lines = Object
       .entries(currentObj)
       .map(([key, node]) => {
-        const nodeStatus = statuses[node.type] || statuses.unchanged;
         const getValue = (value) => iter(value, depth + 1);
         if (!node.type) {
-          return `${currentIndent}${nodeStatus}${key}: ${getValue(node)}`;
+          return `${currentIndent}${statuses.unchanged}${key}: ${getValue(node)}`;
         }
+        const nodeStatus = _.isObject(statuses[node.type])
+          ? statuses[node.type].removed
+          : statuses[node.type];
         const currentValue = node.type === 'updated'
           ? getValue(node.valueOld)
           : getValue(node.value);
         const secondStr = node.type === 'updated'
-          ? `\n${currentIndent}${statuses.added}${key}: ${getValue(node.valueNew)}`
+          ? `\n${currentIndent}${statuses[node.type].added}${key}: ${getValue(node.valueNew)}`
           : '';
         return `${currentIndent}${nodeStatus}${key}: ${currentValue}${secondStr}`;
       });
