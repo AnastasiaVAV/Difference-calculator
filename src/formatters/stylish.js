@@ -17,7 +17,7 @@ export default (tree) => {
       const lines = Object
         .entries(currentNode)
         .map(([key, val]) => `${currentIndent}  ${key}: ${iter(val, depth + 1)}`);
-      return `{\n${lines.join('\n')}\n${bracketIndent}} `;
+      return `{\n${lines.join('\n')}\n${bracketIndent}}`;
     }
     const lines = currentNode.map((node) => {
       switch (node.type) {
