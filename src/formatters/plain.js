@@ -12,15 +12,15 @@ const formatValue = (value) => {
 const plain = (tree) => {
   const iter = (currentNode, path) => currentNode
     .flatMap((node) => {
-      const currentPath = path ? `${path}.${node.name}` : node.name;
-      const firstPart = `Property '${currentPath}' was ${node.type}`;
+      const currentPath = path ? [...path, node.name] : node.name;
+      const firstPart = `Property '${currentPath.join('.')}' `;
       switch (node.type) {
         case 'added':
-          return `${firstPart} with value: ${formatValue(node.value)}`;
+          return `${firstPart}was added with value: ${formatValue(node.value)}`;
         case 'removed':
-          return `${firstPart}`;
+          return `${firstPart}was removed`;
         case 'updated':
-          return `${firstPart}. From ${formatValue(node.oldValue)} to ${formatValue(node.newValue)}`;
+          return `${firstPart}was updated. From ${formatValue(node.oldValue)} to ${formatValue(node.newValue)}`;
         case 'nested':
           return iter(node.children, currentPath);
         default:
@@ -28,28 +28,7 @@ const plain = (tree) => {
       }
     })
     .join('\n');
-  return iter(tree, '');
+  return iter(tree, []);
 };
 
 export default plain;
-
-// const plain = (obj, path = '') => Object
-//   .entries(obj)
-//   .map(([key, node]) => {
-//     const currentPath = path ? `${path}.${key}` : key;
-//     const firstPart = `Property '${currentPath}' was ${node.type}`;
-//     switch (node.type) {
-//       case 'added':
-//         return `${firstPart} with value: ${formatValue(node.value)}`;
-//       case 'removed':
-//         return `${firstPart}`;
-//       case 'updated':
-//         return `${firstPart}. From ${formatValue(node.valueOld)} to ${formatValue(node.valueNew)}`;
-//       default:
-//         return _.isObject(node.value) ? plain(node.value, currentPath) : '';
-//     }
-//   })
-//   .filter(Boolean)
-//   .join('\n');
-
-// export default plain;
