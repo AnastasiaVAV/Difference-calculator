@@ -28,10 +28,6 @@ const buildTree = (obj1, obj2) => {
         newValue: obj2[key],
       };
   });
-  // return {
-  //   type: 'root',
-  //   children,
-  // };
   return children;
 };
 
