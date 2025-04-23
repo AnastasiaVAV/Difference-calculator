@@ -11,8 +11,7 @@ const formatValue = (value, depth) => {
   const indentSize = (depth * spacesCount) - leftShift;
   const currentIndent = replacer.repeat(indentSize);
   const bracketIndent = indentSize > spacesCount ? replacer.repeat((indentSize - spacesCount) + leftShift) : '';
-  const lines = Object
-    .entries(value)
+  const lines = Object.entries(value)
     .map(([key, val]) => `${currentIndent}  ${key}: ${formatValue(val, depth + 1)}`);
   return `{\n${lines.join('\n')}\n${bracketIndent}}`;
 };
