@@ -11,12 +11,12 @@ export default defineConfig([
     plugins: {
       '@stylistic': stylistic,
     },
-
     languageOptions: {
-      globals: {
-        ...globals.node, // Сохраните существующие глобальные переменные
-        ...globals.jest, // Добавьте globals.jest
-      },
+      globals: globals.node,
+      // globals: {
+      //   ...globals.node,
+      //   ...globals.jest,
+      // },
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
