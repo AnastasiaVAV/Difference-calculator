@@ -22,17 +22,17 @@ const buildTree = (obj1, obj2) => {
     return isEquality
       ? { name: key, type: 'unchanged', value: obj1[key] }
       : {
-        name: key,
-        type: 'updated',
-        oldValue: obj1[key],
-        newValue: obj2[key],
-      };
+          name: key,
+          type: 'updated',
+          oldValue: obj1[key],
+          newValue: obj2[key],
+        };
   });
   return children;
 };
 
-const getContent = (filepath) => fs.readFileSync(path.resolve(filepath), 'utf-8');
-const getFormat = (filepath) => path.extname(filepath).slice(1);
+const getContent = filepath => fs.readFileSync(path.resolve(filepath), 'utf-8');
+const getFormat = filepath => path.extname(filepath).slice(1);
 
 const gendiff = (filepath1, filepath2, format) => {
   const content1 = getContent(filepath1);

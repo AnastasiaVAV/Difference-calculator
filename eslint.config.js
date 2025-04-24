@@ -1,29 +1,43 @@
+import js from '@eslint/js';
 import globals from 'globals';
+import { defineConfig } from 'eslint/config';
+import stylistic from '@stylistic/eslint-plugin';
+// import eslintPluginJest from 'eslint-plugin-jest';
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
-import pluginJs from '@eslint/js';
-
-// mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: pluginJs.configs.recommended,
-});
-
-export default [
+export default defineConfig([
+  stylistic.configs.recommended,
+  { files: ['**/*.{js,mjs,cjs}'], plugins: { js }, extends: ['js/recommended'] },
+  { files: ['**/*.{js,mjs,cjs}'], languageOptions: { globals: globals.node } },
   {
-    ignores: ['**/node_modules/**', '**/__tests__/**', 'eslint.config.js'],
-  },
-  { languageOptions: { globals: globals.node } },
-  ...compat.extends('airbnb'),
-  {
+    plugins: {
+      '@stylistic': stylistic,
+      // jest: eslintPluginJest,
+    },
+    // extends: ['plugin:jest/recommended'],
+    // "env": {
+    //     jest: true
+    // },
+    languageOptions: {
+      // globals: globals.node,
+      globals: {
+        ...globals.node, // Сохраните существующие глобальные переменные
+        ...globals.jest, // Добавьте globals.jest
+      },
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
-      'no-console': 'off',
-      'import/extensions': ['error', 'ignorePackages'],
+      // '@stylistic/semi': 'error',
+      // '@stylistic/jsx-indent': 'error',
+      '@stylistic/semi': ['error', 'always'],
+      '@typescript-eslint/no-unused-vars': 'off',
+      // "jest/no-disabled-tests": "warn",
+      // "jest/no-focused-tests": "error",
+      // "jest/no-identical-title": "error",
+      // "jest/prefer-to-have-length": "warn",
+      // "jest/valid-expect": "error"
     },
   },
-];
-// проверка eslint
+]);

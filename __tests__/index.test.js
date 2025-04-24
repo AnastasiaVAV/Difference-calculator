@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import gendiff from '../src/index.js';
 
-const getFixturePath = (name) => path.join('__fixtures__', name);
-const readFixtureFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+const getFixturePath = name => path.join('__fixtures__', name);
+const readFixtureFile = filename => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 const filesFormats = ['json', 'yml', 'yaml'];
 
