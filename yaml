@@ -1,0 +1,1118 @@
+openapi: 3.0.0
+info:
+  title: HTTP Api Example
+  version: "1.0"
+tags:
+  - name: Users
+  - name: Posts
+  - name: Comments
+  - name: Auth
+  - name: Courses
+  - name: Tasks
+paths:
+  /comments:
+    get:
+      operationId: CommentService_list
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 0
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 30
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comments"
+      tags:
+        - Comments
+    post:
+      operationId: CommentService_create
+      parameters: []
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+      tags:
+        - Comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCommentDto"
+      security:
+        - BearerAuth: []
+  /comments/{id}:
+    get:
+      operationId: CommentService_get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+      tags:
+        - Comments
+    patch:
+      operationId: CommentService_update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+      tags:
+        - Comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditCommentDto"
+      security:
+        - BearerAuth: []
+    delete:
+      operationId: CommentService_delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "There is no content to send for this request, but the headers may
+            be useful. "
+      tags:
+        - Comments
+      security:
+        - BearerAuth: []
+  /courses:
+    get:
+      operationId: CourseService_list
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Courses"
+      tags:
+        - Courses
+      security:
+        - ApiKeyAuth: []
+    post:
+      operationId: CourseService_create
+      parameters: []
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+      tags:
+        - Courses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCourseDto"
+      security:
+        - ApiKeyAuth: []
+  /courses/{id}:
+    get:
+      operationId: CourseService_get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+      tags:
+        - Courses
+      security:
+        - ApiKeyAuth: []
+    patch:
+      operationId: CourseService_update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+      tags:
+        - Courses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditCourseDto"
+      security:
+        - ApiKeyAuth: []
+    delete:
+      operationId: CourseService_delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "There is no content to send for this request, but the headers may
+            be useful. "
+      tags:
+        - Courses
+      security:
+        - ApiKeyAuth: []
+  /login:
+    post:
+      operationId: AuthService_create
+      parameters: []
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthToken"
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthData"
+  /posts:
+    get:
+      operationId: PostService_list
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 0
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 30
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Posts"
+      tags:
+        - Posts
+    post:
+      operationId: PostService_create
+      parameters: []
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewPostDto"
+      security:
+        - BearerAuth: []
+  /posts/{id}:
+    get:
+      operationId: PostService_get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+      tags:
+        - Posts
+    patch:
+      operationId: PostService_update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditPostDto"
+      security:
+        - BearerAuth: []
+    delete:
+      operationId: PostService_delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "There is no content to send for this request, but the headers may
+            be useful. "
+      tags:
+        - Posts
+      security:
+        - BearerAuth: []
+  /posts/{postId}/comments:
+    get:
+      operationId: PostService_getComments
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 0
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 30
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comments"
+      tags:
+        - Posts
+  /tasks:
+    get:
+      operationId: TaskService_list
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+      tags:
+        - Tasks
+    post:
+      operationId: TaskService_create
+      parameters: []
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+      tags:
+        - Tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewTaskDto"
+  /tasks/{id}:
+    get:
+      operationId: TaskService_get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+      tags:
+        - Tasks
+    patch:
+      operationId: TaskService_update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+      tags:
+        - Tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditTaskDto"
+    delete:
+      operationId: TaskService_delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "There is no content to send for this request, but the headers may
+            be useful. "
+      tags:
+        - Tasks
+  /users:
+    get:
+      operationId: UserService_list
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+      tags:
+        - Users
+    post:
+      operationId: UserService_create
+      parameters: []
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUserDto"
+  /users/{authorId}/comments:
+    get:
+      operationId: UserService_getComments
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 0
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 30
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comments"
+      tags:
+        - Users
+  /users/{authorId}/posts:
+    get:
+      operationId: UserService_getPosts
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 0
+          explode: false
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: uint16
+            default: 30
+          explode: false
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Posts"
+      tags:
+        - Users
+  /users/{id}:
+    get:
+      operationId: UserService_get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: select
+          in: query
+          required: false
+          schema:
+            type: string
+          explode: false
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      tags:
+        - Users
+    patch:
+      operationId: UserService_update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditUserDto"
+      security:
+        - BearerAuth: []
+    delete:
+      operationId: UserService_delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "There is no content to send for this request, but the headers may
+            be useful. "
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+components:
+  schemas:
+    AuthData:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+    AuthToken:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          minLength: 1
+    Comment:
+      type: object
+      required:
+        - id
+        - authorId
+        - postId
+        - body
+      properties:
+        id:
+          type: integer
+          format: uint16
+        authorId:
+          type: integer
+          format: uint16
+        postId:
+          type: integer
+          format: uint16
+        body:
+          type: string
+          minLength: 1
+    Comments:
+      type: object
+      required:
+        - comments
+        - total
+        - skip
+        - limit
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+        total:
+          type: integer
+          format: uint16
+        skip:
+          type: integer
+          format: uint16
+          default: 0
+        limit:
+          type: integer
+          format: uint16
+          default: 30
+    Course:
+      type: object
+      required:
+        - id
+        - title
+        - description
+      properties:
+        id:
+          type: integer
+          format: uint16
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+    Courses:
+      type: object
+      required:
+        - courses
+        - total
+        - skip
+        - limit
+      properties:
+        courses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+        total:
+          type: integer
+          format: uint16
+        skip:
+          type: integer
+          format: uint16
+          default: 0
+        limit:
+          type: integer
+          format: uint16
+          default: 30
+    EditCommentDto:
+      type: object
+      properties:
+        postId:
+          type: integer
+          format: uint16
+        body:
+          type: string
+          minLength: 1
+    EditCourseDto:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+    EditPostDto:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+          minLength: 1
+    EditTaskDto:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/Status"
+    EditUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          minLength: 1
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+    NewCommentDto:
+      type: object
+      required:
+        - postId
+        - body
+      properties:
+        postId:
+          type: integer
+          format: uint16
+        body:
+          type: string
+          minLength: 1
+    NewCourseDto:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+    NewPostDto:
+      type: object
+      required:
+        - title
+        - body
+      properties:
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+          minLength: 1
+    NewTaskDto:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+        status:
+          allOf:
+            - $ref: "#/components/schemas/Status"
+          default: Backlog
+    NewUserDto:
+      type: object
+      required:
+        - email
+        - firstName
+        - lastName
+        - password
+      properties:
+        email:
+          type: string
+          minLength: 1
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+    Post:
+      type: object
+      required:
+        - id
+        - authorId
+        - title
+        - body
+      properties:
+        id:
+          type: integer
+          format: uint16
+        authorId:
+          type: integer
+          format: uint16
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+          minLength: 1
+    Posts:
+      type: object
+      required:
+        - posts
+        - total
+        - skip
+        - limit
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Post"
+        total:
+          type: integer
+          format: uint16
+        skip:
+          type: integer
+          format: uint16
+        limit:
+          type: integer
+          format: uint16
+          default: 30
+    Status:
+      type: string
+      enum:
+        - Backlog
+        - Ready
+        - In Progress
+        - Done
+        - Archived
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - status
+      properties:
+        id:
+          type: integer
+          format: uint16
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/Status"
+    Tasks:
+      type: object
+      required:
+        - tasks
+        - total
+        - skip
+        - limit
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+        total:
+          type: integer
+          format: uint16
+        skip:
+          type: integer
+          format: uint16
+          default: 0
+        limit:
+          type: integer
+          format: uint16
+          default: 30
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - firstName
+        - lastName
+      properties:
+        id:
+          type: integer
+          format: uint16
+        email:
+          type: string
+          minLength: 1
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+    Users:
+      type: object
+      required:
+        - users
+        - total
+        - skip
+        - limit
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        total:
+          type: integer
+          format: uint16
+        skip:
+          type: integer
+          format: uint16
+          default: 0
+        limit:
+          type: integer
+          format: uint16
+          default: 30
+    Versions:
+      type: string
+      enum:
+        - "1.0"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+servers:
+  - url: /http-api
+    description: Server endpoint
+    variables: {}

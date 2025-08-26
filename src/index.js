@@ -39,9 +39,9 @@ const gendiff = (filepath1, filepath2, format) => {
   const content2 = getContent(filepath2)
   const format1 = getFormat(filepath1)
   const format2 = getFormat(filepath2)
-  const parse1 = parse(content1, format1)
-  const parse2 = parse(content2, format2)
-  const tree = buildTree(parse1, parse2)
+  const obj1 = parse(content1, format1)
+  const obj2 = parse(content2, format2)
+  const tree = buildTree(obj1, obj2)
   return formatter(tree, format)
 }
 
