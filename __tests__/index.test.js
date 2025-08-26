@@ -1,5 +1,4 @@
-// /* global test, expect */
-import { test, expect } from 'jest'
+import { test, expect } from '@jest/globals'
 import path from 'path'
 import fs from 'fs'
 import gendiff from '../src/index.js'
