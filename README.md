@@ -24,9 +24,10 @@
 - `lodash` – работа с данными
 
 ## Установка и использование
-Установка как global package
+Установка
 ```bash
-npm install -g @username/difference-calculator
+git clone git@github.com:AnastasiaVAV/Difference-calculator.git
+make install
 ```
 
 ## Демонстрация работы
